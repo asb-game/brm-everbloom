@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medieval Learning Game</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        .game-container {
+            background-image: url('img/everbloom.webp');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .textbox {
+            background: rgba(205, 175, 149, 0.95);
+            border: 8px solid #8b7355;
+            border-style: double;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6),
+                        inset 0 0 30px rgba(139, 115, 85, 0.3);
+            text-align: center;
+            max-width: 600px;
+            margin: 20px;
+            animation: fadeIn 1s ease-in;
+            position: relative;
+        }
+
+        .textbox::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid #463714;
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .textbox h1 {
+            font-family: 'Cinzel Decorative', cursive;
+            color: #463714;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3),
+                         0 0 15px rgba(196, 162, 105, 0.5);
+            line-height: 1.2;
+            background: linear-gradient(to bottom, #463714, #8b7355);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        .textbox p {
+            font-family: 'MedievalSharp', cursive;
+            color: #463714;
+            font-size: 1.8rem;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .start-button {
+            background: linear-gradient(to bottom, #c4a269, #8b7355);
+            border: 3px solid #463714;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.4rem;
+            color: #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(196, 162, 105, 0.7);
+        }
+
+        .start-button:hover::after {
+            left: 100%;
+        }
+
+        .start-button:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glowing {
+            0% { box-shadow: 0 0 20px rgba(196, 162, 105, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(196, 162, 105, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(196, 162, 105, 0.5); }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="textbox">
+            <h1>Welcome to Everbloom</h1>
+            <p>Are you ready to solve the challenge?</p>
+            <button class="start-button">Begin Journey</button>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.start-button').addEventListener('click', function() {
+            window.location.href = 'intro.html';
+        });
+    </script>
+</body>
+</html>
