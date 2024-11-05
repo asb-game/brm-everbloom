@@ -1,0 +1,159 @@
+<div class="content-wrapper">
+    <div class="discussion-box">
+        <h1 class="title">In-class Discussion</h1>
+        <div class="discussion-content">
+            <p class="task">Identify why practitioners (and perhaps yourself) see theory as impractical</p>
+        </div>
+        
+        <div class="code-verification">
+            <p class="prompt">Enter the code to proceed:</p>
+            <input type="text" id="codeInput" placeholder="Enter code" maxlength="6">
+            <p class="error-message" id="errorMessage"></p>
+            <button class="verify-button" onclick="verifyCode()">Verify Code</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        overflow-y: auto;
+        background: url('img/library.webp') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'MedievalSharp', cursive;
+    }
+
+    .content-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem;
+    }
+
+    .discussion-box {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        max-width: 800px;
+        width: 90%;
+        text-align: center;
+        border: 2px solid #B8860B;
+    }
+
+    .title {
+        color: #B8860B;
+        font-family: 'Cinzel Decorative', cursive;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .task {
+        color: #4A4A4A;
+        font-size: 1.5rem;
+        line-height: 1.6;
+        margin-bottom: 3rem;
+    }
+
+    .code-verification {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 2px solid rgba(184, 134, 11, 0.3);
+    }
+
+    .prompt {
+        color: #B8860B;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    #codeInput {
+        padding: 12px 20px;
+        font-size: 1.2rem;
+        border: 2px solid #B8860B;
+        border-radius: 25px;
+        width: 200px;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-family: 'MedievalSharp', cursive;
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    #codeInput:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
+    }
+
+    .error-message {
+        color: #D32F2F;
+        font-size: 1rem;
+        height: 20px;
+        margin: 10px 0;
+    }
+
+    .verify-button {
+        padding: 12px 30px;
+        background: #B8860B;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-family: 'MedievalSharp', cursive;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .verify-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .discussion-box {
+            padding: 2rem;
+        }
+
+        .title {
+            font-size: 2rem;
+        }
+
+        .task {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+
+<script>
+    function verifyCode() {
+        const input = document.getElementById('codeInput').value;
+        const errorMessage = document.getElementById('errorMessage');
+        
+        if (input === '012th8') {
+            // Fade out transition
+            document.body.style.opacity = 0;
+            setTimeout(() => {
+                window.location.href = 'research.html';
+            }, 500);
+        } else {
+            errorMessage.textContent = 'Incorrect code. Please try again.';
+            document.getElementById('codeInput').value = '';
+            
+            // Clear error message after 3 seconds
+            setTimeout(() => {
+                errorMessage.textContent = '';
+            }, 3000);
+        }
+    }
+
+    // Allow Enter key to trigger verification
+    document.getElementById('codeInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            verifyCode();
+        }
+    });
+</script> 
