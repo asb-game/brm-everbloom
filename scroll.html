@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: url('img/scrollroom.webp') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'MedievalSharp', cursive;
+            color: #463714;
+            overflow-x: hidden;
+        }
+
+        .room-container {
+            width: 100%;
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 2rem;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .scroll-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-align: center;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: url('img/scrollitem.png') no-repeat center center;
+            background-size: contain;
+            padding: 20px;
+        }
+
+        .scroll-item:first-child {
+            width: 220px;
+            height: 220px;
+        }
+
+        .scroll-item:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2) drop-shadow(0 0 15px rgba(255, 223, 186, 0.7));
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scroll-content {
+            background: url('img/scrollpaper.png') no-repeat center center;
+            background-size: contain;
+            padding: 6rem 8rem;
+            max-width: 1200px;
+            width: 98%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            animation: unroll 1s ease-out;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #2c1810;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 28px;
+            color: #fff;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 8px;
+            z-index: 1002;
+        }
+
+        .next-page-btn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 40px;
+            background: rgba(70, 55, 20, 0.9);
+            color: #fff;
+            border: 2px solid #c4a269;
+            border-radius: 25px;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .next-page-btn:hover {
+            background: rgba(196, 162, 105, 0.9);
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        @keyframes unroll {
+            from {
+                transform: scaleY(0);
+                opacity: 0;
+            }
+            to {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        .scroll-number {
+            position: relative;
+            color: #000;
+            font-size: 1.4rem;
+            /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .read-indicator {
+            position: relative;
+            color: #29742c;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
+        }
+
+        .scroll-item.read .read-indicator {
+            opacity: 1;
+        }
+
+        /* Ensure text is properly centered on the scroll paper */
+        .content-text {
+            padding: 30px 80px;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .scroll-item:first-child::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle, rgba(255, 223, 186, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .room-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                circle at center,
+                transparent 20%,
+                rgba(0, 0, 0, 0.4) 70%
+            );
+            pointer-events: none;
+        }
+
+        /* Style specifically for the theory title */
+        .content-text strong {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Style for the theory content */
+        .theory-content {
+            text-align: justify;
+            /*margin left right should be 10% of the width*/
+            margin-left: 17%;
+            margin-right: 17%;
+            display: inline-block;
+        }
+
+        /* Special styling for the text inside scroll */
+        .scroll-text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            /* background: rgba(0, 0, 0, 0.2); */
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .intro-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #B8860B;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .intro-text {
+            color: #B8860B;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .start-button {
+            padding: 15px 30px;
+            background: #B8860B;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="room-container">
+        <!-- Scrolls will be dynamically added here -->
+    </div>
+
+    <div class="modal">
+        <div class="scroll-content">
+            <button class="close-btn">&times;</button>
+            <div class="content-text"></div>
+        </div>
+    </div>
+
+    <a href="theory.html" class="next-page-btn">Continue Journey</a>
+
+    <div class="intro-overlay">
+        <div class="intro-box">
+            <p class="intro-text">The King invites you to the scroll room to read some theories that alchemists, scientists, and citizens of Everbloom have proposed.</p>
+            <button class="start-button">Read the Scrolls</button>
+        </div>
+    </div>
+
+    <script>
+        const theories = [
+            {
+                id: 1,
+                text: "Theory 1: The phases of the moon have a direct influence on plant growth. Plants grow faster during the waxing phase of the moon because of the increased gravitational pull and light. Full moons are believed to enhance water absorption in plants, while new moons slow down their metabolic processes."
+            },
+            {
+                id: 2,
+                text: "Theory 2: Photosynthesis is the process by which green plants use sunlight to convert water, carbon dioxide, and minerals from the ground to create oxygen and energy-rich organic compounds (glucose). Sunlight, water and soil conditions all play critical roles. Water is absorbed by the roots and is essential for splitting hydrogen and oxygen during photosynthesis. Soil provides the nutrients (like nitrogen, phosphorus, and potassium) that plants need for growth."
+            },
+            {
+                id: 3,
+                text: "Theory 3: Plants grow not only through water and nutrients but by absorbing the four classical elements—earth, air, fire, and water. Different plants are believed to be nourished by different elements: Earth for strength and grounding, Air for communication and spreading of seeds, Fire for growth energy, and Water for life and sustenance."
+            },
+            {
+                id: 4,
+                text: "Theory 4: Plants are direct manifestations of the Earth goddess Gaia. Each plant is considered a small expression of her divine will, and by tending to plants, humans are honoring Gaia herself. Those who disrespect plants or harm them without need will lose Gaia's blessings, which could lead to failed crops, poor health, or even natural disasters."
+            },
+            {
+                id: 5,
+                text: "Theory 5: The alignment of the earth with the sun during solstices has a powerful effect on plant growth. Plants are believed to absorb extra cosmic energy during the summer and winter solstices, leading to accelerated growth and magical properties. It is thought that herbs gathered during the summer solstice are particularly potent in healing, while those gathered during the winter solstice have strong protective or banishing powers."
+            },
+            {
+                id: 6,
+                text: "Theory 6: Plants grow best in environments where they are paired with complementary species. Certain plants, when grown together, enhance each other's nutrient uptake, repel pests, and improve overall resilience. This is often seen in practices like companion planting in agriculture."
+            }
+        ];
+
+    const roomContainer = document.querySelector('.room-container');
+    const modal = document.querySelector('.modal');
+    const contentText = document.querySelector('.content-text');
+    const closeBtn = document.querySelector('.close-btn');
+    const nextPageBtn = document.querySelector('.next-page-btn');
+    let readScrolls = new Set();  // Initialize the Set
+
+    roomContainer.innerHTML = ''; // Clear existing content
+
+    // Create array of ordered IDs
+    const scrollOrder = [1, 2, 3, 4, 5, 6];
+    
+    scrollOrder.forEach(num => {
+        const theory = theories.find(t => t.id === num);
+        const scrollItem = document.createElement('div');
+        scrollItem.className = 'scroll-item';
+        scrollItem.innerHTML = `
+            <div class="scroll-text-container">
+                <div class="scroll-number">Scroll ${num}</div>
+                <div class="read-indicator">✓ Read</div>
+            </div>
+        `;
+        
+        scrollItem.addEventListener('click', () => openScroll(theory));
+        roomContainer.appendChild(scrollItem);
+    });
+
+    function openScroll(theory) {
+        // Format the theory text with separate styling for title and content
+        const titleAndText = theory.text.split(':');
+        contentText.innerHTML = `
+            <strong>${titleAndText[0]}:</strong>
+            <div class="theory-content">${titleAndText[1]}</div>
+        `;
+        modal.style.display = 'flex';
+        
+        // Mark scroll as read
+        const scrollItem = document.querySelector(`.scroll-item:nth-child(${theory.id})`);
+        scrollItem.classList.add('read');
+        readScrolls.add(theory.id);
+
+        // Check if all scrolls are read
+        if (readScrolls.size === theories.length) {
+            nextPageBtn.style.display = 'block';
+        }
+    }
+
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Add keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            }
+        });
+
+        document.querySelector('.start-button').addEventListener('click', function() {
+            const overlay = document.querySelector('.intro-overlay');
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+        });
+    </script>
+</body>
+</html>

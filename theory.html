@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory Selection</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'MedievalSharp', cursive;
+            background: url('img/scrollroom.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: #2c1810;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .theories-panel, .quiz-panel {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .theory-item {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-bottom: 1px solid #c4a269;
+        }
+
+        .theory-title {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #463714;
+        }
+
+        .quiz-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(196, 162, 105, 0.2);
+            border-radius: 10px;
+        }
+
+        .theory-option {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #c4a269;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theory-option:hover {
+            background: rgba(196, 162, 105, 0.2);
+        }
+
+        .feedback {
+            display: none;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 8px;
+        }
+
+        .feedback.correct {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+        }
+
+        .feedback.incorrect {
+            background: rgba(244, 67, 54, 0.2);
+            border: 2px solid #F44336;
+        }
+
+        .next-button {
+            display: none;
+            padding: 1rem 2rem;
+            background: #463714;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .next-button:hover {
+            background: #5a472a;
+            transform: scale(1.05);
+        }
+
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .intro-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #B8860B;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .challenge-title {
+            color: #B8860B;
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro-text {
+            color: #B8860B;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .start-button {
+            padding: 15px 30px;
+            background: #B8860B;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="theories-panel">
+            <h2>Theories of Plant Growth</h2>
+            <div class="theories-list">
+                <!-- Theories will be inserted here -->
+            </div>
+        </div>
+
+        <div class="quiz-panel">
+            <div class="quiz-question">
+                <h2>The King's Challenge</h2>
+                <p>As a time traveler from the future, you have been summoned by the King to help improve the kingdom's crop yields. 
+                   After examining the ancient scrolls in this sacred room, which theory would you recommend to the King's council 
+                   as the most reliable foundation for understanding plant growth? Choose wisely, as your answer will influence 
+                   the kingdom's agricultural future.</p>
+            </div>
+            <div class="theory-options">
+                <!-- Theory options will be inserted here -->
+            </div>
+            <div class="feedback"></div>
+            <a href="theory-presentation.html" class="next-button">Continue Your Journey</a>
+        </div>
+    </div>
+
+    <div class="intro-overlay">
+        <div class="intro-box">
+            <h2 class="challenge-title">The King's Challenge:</h2>
+            <p class="intro-text">After examining the ancient scrolls in this sacred room, which theory would you recommend to the King's council as the most reliable foundation for understanding plant growth? Choose wisely, as your answer will influence the kingdom's agricultural future.</p>
+            <button class="start-button">Solve the Puzzle</button>
+        </div>
+    </div>
+
+    <script>
+        const theories = [
+            {
+                id: 1,
+                text: "Theory 1: The phases of the moon have a direct influence on plant growth. Plants grow faster during the waxing phase of the moon because of the increased gravitational pull and light. Full moons are believed to enhance water absorption in plants, while new moons slow down their metabolic processes."
+            },
+            {
+                id: 2,
+                text: "Theory 2: Photosynthesis is the process by which green plants use sunlight to convert water, carbon dioxide, and minerals from the ground to create oxygen and energy-rich organic compounds (glucose). Sunlight, water and soil conditions all play critical roles. Water is absorbed by the roots and is essential for splitting hydrogen and oxygen during photosynthesis. Soil provides the nutrients (like nitrogen, phosphorus, and potassium) that plants need for growth."
+            },
+            {
+                id: 3,
+                text: "Theory 3: Plants grow not only through water and nutrients but by absorbing the four classical elements—earth, air, fire, and water. Different plants are believed to be nourished by different elements: Earth for strength and grounding, Air for communication and spreading of seeds, Fire for growth energy, and Water for life and sustenance."
+            },
+            {
+                id: 4,
+                text: "Theory 4: Plants are direct manifestations of the Earth goddess Gaia. Each plant is considered a small expression of her divine will, and by tending to plants, humans are honoring Gaia herself. Those who disrespect plants or harm them without need will lose Gaia's blessings, which could lead to failed crops, poor health, or even natural disasters."
+            },
+            {
+                id: 5,
+                text: "Theory 5: The alignment of the earth with the sun during solstices has a powerful effect on plant growth. Plants are believed to absorb extra cosmic energy during the summer and winter solstices, leading to accelerated growth and magical properties. It is thought that herbs gathered during the summer solstice are particularly potent in healing, while those gathered during the winter solstice have strong protective or banishing powers."
+            },
+            {
+                id: 6,
+                text: "Theory 6: Plants grow best in environments where they are paired with complementary species. Certain plants, when grown together, enhance each other's nutrient uptake, repel pests, and improve overall resilience. This is often seen in practices like companion planting in agriculture."
+            }
+        ];
+
+        // Populate theories list
+        const theoriesList = document.querySelector('.theories-list');
+        theories.forEach(theory => {
+            const theoryDiv = document.createElement('div');
+            theoryDiv.className = 'theory-item';
+            const [title, ...content] = theory.text.split(':');
+            theoryDiv.innerHTML = `
+                <div class="theory-title">${title}:</div>
+                <div class="theory-content">${content.join(':')}</div>
+            `;
+            theoriesList.appendChild(theoryDiv);
+        });
+
+        // Populate theory options
+        const theoryOptions = document.querySelector('.theory-options');
+        theories.forEach(theory => {
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'theory-option';
+            optionDiv.textContent = `Theory ${theory.id}`;
+            optionDiv.addEventListener('click', () => checkAnswer(theory.id));
+            theoryOptions.appendChild(optionDiv);
+        });
+
+        function checkAnswer(selectedId) {
+            const feedback = document.querySelector('.feedback');
+            const nextButton = document.querySelector('.next-button');
+            
+            if (selectedId === 2) {
+                feedback.innerHTML = `
+                    <h3>Wise Choice, Time Traveler!</h3>
+                    <p>Indeed, Theory 2 holds the key to understanding plant growth. As someone from the future, 
+                    you recognize that this theory aligns with the scientific process of photosynthesis. While the other 
+                    theories reflect the cultural wisdom of this era, Theory 2 describes the actual mechanism by which 
+                    plants harness sunlight, water, and nutrients to grow. This knowledge will help the kingdom develop 
+                    more effective farming practices and ensure better harvests for all.</p>
+                `;
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.innerHTML = `
+                    <h3>Consider Again, Time Traveler</h3>
+                    <p>While this era has produced many fascinating theories about plant growth, Theory 2 holds the 
+                    true secret to understanding how plants thrive. As someone from the future, you know that this theory 
+                    correctly describes photosynthesis - the process where plants use sunlight to transform water and air 
+                    into nourishment, while the soil provides essential nutrients. This scientific understanding has helped 
+                    future generations develop reliable farming methods. The other theories, while reflecting the wisdom of 
+                    this age, don't provide the practical foundation needed to improve the kingdom's crops.</p>
+                `;
+                feedback.className = 'feedback incorrect';
+            }
+            
+            feedback.style.display = 'block';
+            nextButton.style.display = 'block';
+        }
+
+        document.querySelector('.start-button').addEventListener('click', function() {
+            const overlay = document.querySelector('.intro-overlay');
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
