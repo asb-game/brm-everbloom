@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: url('img/library.webp') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        .video-container {
+            width: 90%;
+            max-width: 1600px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .main-video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Subtitle styles */
+        ::cue {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.4em;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .questions-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            width: 90%;
+            color: #fff;
+            z-index: 20;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .questions-title {
+            color: #FFD700;
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+        }
+
+        .question-number {
+            color: #FFD700;
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .highlight {
+            color: #FFD700;
+            font-style: italic;
+        }
+
+        .next-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 25px;
+            padding: 10px 40px;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.2rem;
+            color: #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 2rem;
+        }
+
+        .next-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .multiple-choice-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            width: 90%;
+            color: #fff;
+            z-index: 20;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .choice-title {
+            color: #FFD700;
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .choice-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .choice-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .choice-option.selected {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: #FFD700;
+        }
+
+        .choice-option input {
+            margin-right: 1rem;
+        }
+
+        .choice-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video class="main-video" id="mainVideo" controls autoplay>
+            <!--autoplay-->
+            <source src="img/3-Research Question.mp4" type="video/mp4">
+            <track 
+                label="English" 
+                kind="subtitles" 
+                srclang="en" 
+                src="img/3-Research Question.vtt" 
+                default>
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="questions-container" id="questionsContainer">
+        <div class="questions-title">Proposed Research Questions</div>
+        
+        <div class="question">
+            <div class="question-number">1.</div>
+            <div>Are the soil conditions in <span class="highlight">Everbloom</span> preventing crops from growing effectively, despite adequate sunlight?</div>
+        </div>
+        
+        <div class="question">
+            <div class="question-number">2.</div>
+            <div>What combination of sunlight, water, soil, and other nutrients is causing crop failure in <span class="highlight">Everbloom</span>?</div>
+        </div>
+        
+        <div class="question">
+            <div class="question-number">3.</div>
+            <div>Is a lack of sunlight causing some of the crops in <span class="highlight">Everbloom</span> to die?</div>
+        </div>
+        
+        <div class="question">
+            <div class="question-number">4.</div>
+            <div>Why do some of the crops in <span class="highlight">Everbloom</span> grow well while others fail to thrive?</div>
+        </div>
+
+        <a href="#" class="next-button" id="continueBtn">Continue</a>
+    </div>
+
+    <div class="multiple-choice-container" id="multipleChoiceContainer">
+        <div class="choice-title">Which do you think is the best research question?</div>
+        
+        <div class="choice-option">
+            <input type="radio" name="research-question" id="choice1" value="1">
+            <label for="choice1">Are the soil conditions in Everbloom preventing crops from growing effectively, despite adequate sunlight?</label>
+        </div>
+        
+        <div class="choice-option">
+            <input type="radio" name="research-question" id="choice2" value="2">
+            <label for="choice2">What combination of sunlight, water, soil, and other nutrients is causing crop failure in Everbloom?</label>
+        </div>
+        
+        <div class="choice-option">
+            <input type="radio" name="research-question" id="choice3" value="3">
+            <label for="choice3">Is a lack of sunlight causing some of the crops in Everbloom to die?</label>
+        </div>
+        
+        <div class="choice-option">
+            <input type="radio" name="research-question" id="choice4" value="4">
+            <label for="choice4">Why do some of the crops in Everbloom grow well while others fail to thrive?</label>
+        </div>
+
+        <a href="#" class="next-button" id="submitChoice">Continue to Analysis</a>
+    </div>
+
+    <script>
+        const mainVideo = document.getElementById('mainVideo');
+        const questionsContainer = document.getElementById('questionsContainer');
+        const multipleChoiceContainer = document.getElementById('multipleChoiceContainer');
+        const continueBtn = document.getElementById('continueBtn');
+        const submitChoice = document.getElementById('submitChoice');
+
+        // Show questions when video ends
+        mainVideo.addEventListener('ended', function() {
+            questionsContainer.style.display = 'block';
+        });
+
+        // Show multiple choice when clicking continue
+        continueBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            questionsContainer.style.display = 'none';
+            multipleChoiceContainer.style.display = 'block';
+        });
+
+        // Style selected option
+        document.querySelectorAll('.choice-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Trigger the radio button click
+                this.querySelector('input[type="radio"]').click();
+                
+                // Update styling
+                document.querySelectorAll('.choice-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+
+        // Handle submission
+        submitChoice.addEventListener('click', function(e) {
+            e.preventDefault();
+            const selectedOption = document.querySelector('input[name="research-question"]:checked');
+            
+            if (selectedOption) {
+                document.body.style.opacity = 0;
+                setTimeout(() => {
+                    window.location.href = 'analysis.html';
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html> 

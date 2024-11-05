@@ -1,0 +1,16 @@
+{
+  "name": "medieval-learning-game",
+  "version": "1.0.0",
+  "description": "Medieval themed learning game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "compression": "^1.7.4"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+} 
